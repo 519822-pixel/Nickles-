@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Nickles Games - Home</title>
+
+    <!-- Google font (neon / techno vibe) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Kanit:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+      :root{
+        --bg-1: #0b0b0c;
+        --bg-2: #1a0000;
+        --red-1: #ff1f1f;
+        --red-2: #ff4f4f;
+        --muted: #bdbdbd;
+        --glass: rgba(255,255,255,0.03);
+        --card-bg: rgba(0,0,0,0.55);
+      }
+
+      /* Page base */
+      html,body{
+        height:100%;
+        margin:0;
+        font-family: "Kanit", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        background: radial-gradient(1200px 600px at 10% 10%, rgba(255,0,0,0.04), transparent 8%),
+                    radial-gradient(800px 400px at 90% 90%, rgba(255,0,0,0.03), transparent 6%),
+                    linear-gradient(135deg, var(--bg-1) 0%, #070606 40%, #130000 100%);
+        color:#f7f7f7;
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        overflow-x:hidden;
+      }
+
+      /* subtle animated red flicker overlay */
+      .ambient {
+        position:fixed;
+        inset:0;
+        pointer-events:none;
+        background:
+          linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(255,0,0,0.02) 50%, rgba(0,0,0,0) 100%);
+        mix-blend-mode:screen;
+        opacity:0.9;
+        animation: ambientShift 6s ease-in-out infinite;
+      }
+      @keyframes ambientShift{
+        0%{ transform:translateX(-5%); opacity:0.75 }
+        50%{ transform:translateX(5%); opacity:1 }
+        100%{ transform:translateX(-5%); opacity:0.75 }
+      }
+
+      .container{
+        max-width:1100px;
+        margin:4vh auto;
+        padding:2.25rem;
+        border-radius:16px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+        box-shadow: 0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,0,0,0.06);
+        position:relative;
+        z-index:2;
+        backdrop-filter: blur(6px) saturate(110%);
+      }
+
+      header{
+        display:flex;
+        align-items:center;
+        gap:1rem;
+        margin-bottom:1.25rem;
+      }
+
+      h1{
+        margin:0;
+        font-family: "Orbitron", monospace;
+        font-weight:700;
+        letter-spacing:1px;
+        font-size: clamp(1.8rem, 3.5vw, 3rem);
+        color:var(--red-1);
+        text-shadow:
+          0 0 6px rgba(255,31,31,0.18),
+          0 0 18px rgba(255,31,31,0.08),
+          0 8px 20px rgba(0,0,0,0.6);
+        display:inline-block;
+        position:relative;
+      }
+
+      /* animated neon underline */
+      h1::after{
+        content:"";
+        display:block;
+        height:8px;
+        width:60%;
+        margin-top:8px;
+        background: linear-gradient(90deg, rgba(255,31,31,0.9), rgba(255,79,79,0.6));
+        filter: blur(8px);
+        border-radius:6px;
+        transform-origin:left center;
+        animation: pulseUnderline 2s ease-in-out infinite;
+      }
+      @keyframes pulseUnderline{
+        0%{ transform:scaleX(0.85); opacity:0.9 }
+        50%{ transform:scaleX(1); opacity:1 }
+        100%{ transform:scaleX(0.85); opacity:0.9 }
+      }
+
+      h3{
+        margin:0.25rem 0 1.1rem 0;
+        color:var(--muted);
+        line-height:1.5;
+        max-width:80ch;
+        font-size:clamp(0.95rem, 1.6vw, 1.05rem);
+      }
+
+      #game-area{
+        display:flex;
+        gap:1rem;
+        flex-wrap:wrap;
+        align-items:flex-start;
+        min-height:220px;
+        padding:1rem;
+        border-radius:12px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.14));
+        border:1px dashed rgba(255,31,31,0.06);
+        color:var(--muted);
+        align-items:center;
+        justify-content:center;
+      }
+
+      /* footer / credits */
+      footer{
+        margin-top:1.2rem;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:1rem;
+        flex-wrap:wrap;
+      }
+      footer small{ color:var(--muted) }
+
+      /* responsive improvements */
+      @media (max-width:700px){
+        .container{ margin:3vh 1rem; padding:1.25rem; }
+        #game-area{ flex-direction:column; min-height:160px; padding:0.75rem; }
+      }
+
+      /* Decorative vertical glowing stripe */
+      .glow-stripe{
+        position:absolute;
+        top: -20%;
+        right: -12%;
+        width:360px;
+        height:140%;
+        transform: rotate(18deg);
+        background: linear-gradient(180deg, rgba(255,31,31,0.06), rgba(255,79,79,0.02));
+        filter: blur(60px);
+        pointer-events:none;
+        z-index:1;
+        opacity:0.9;
+      }
+
+      /* Small animated scanline across header for vibe */
+      .scanline{
+        position:absolute;
+        left:-40%;
+        top:0;
+        width:180%;
+        height:2px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+        transform:translateY(12px);
+        animation: scan 5.6s linear infinite;
+        mix-blend-mode:overlay;
+        pointer-events:none;
+      }
+      @keyframes scan{
+        0%{ transform: translateX(-100%) translateY(8px) }
+        100%{ transform: translateX(100%) translateY(8px) }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+
+    <div class="container" role="main" aria-labelledby="site-title">
+      <div class="glow-stripe" aria-hidden="true"></div>
+      <div class="scanline" aria-hidden="true"></div>
+
+      <header>
+        <h1 id="site-title">Nickles Games</h1>
+        <div class="badge" aria-hidden="true" style="background:transparent;color:var(--red-1);border:1px solid rgba(255,31,31,0.07);padding:.2rem .6rem;border-radius:999px;font-weight:600;">Beta</div>
+      </header>
+
+      <h3>
+        This is my ultimate collection of games. I would like to thank everyone that motivated, taught, and supported me in the creation process. I am Nikos Markopoulos �� again, thank you.
+      </h3>
+
+      <div id="game-area" aria-live="polite">
+        <!-- Games removed per your request.
+             Add your game embeds or links here. Examples you can drop in:
+             - an iframe for an HTML5 game: <iframe src="games/mygame/index.html"></iframe>
+             - a link to a separate game page: <a href="games/mygame.html">My Game</a>
+             - or an article/card element with class="game-card" if you want the same styling as before.
+        -->
+        <div style="opacity:0.75; text-align:center; max-width:60ch;">
+          Your games will appear here. Add game embeds, links, or article elements inside the #game-area div.
+        </div>
+      </div>
+
+      <footer>
+        <small>Made by Nikos Markopoulos — Nickles Games</small>
+        <small>Tip: drop your games into the repo and link/embed them into the game area above.</small>
+      </footer>
+    </div>
+  </body>
+</html>
